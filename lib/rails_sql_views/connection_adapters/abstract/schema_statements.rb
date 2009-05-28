@@ -67,7 +67,9 @@ module RailsSqlViews
       #   database documentation to determine what drop behaviors are available.
       def drop_view(name, options={})
         if supports_views?
-          drop_sql = "DROP VIEW #{name}"
+          drop_sql = "DROP VIEW"
+          drop_sql << " IF EXISTS" if options[:if_exists?]
+          drop_sql << " #{name}"
           drop_sql << " #{options[:drop_behavior]}" if options[:drop_behavior]
           execute drop_sql
         end
